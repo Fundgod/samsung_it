@@ -2,6 +2,7 @@ package com.example.hehehe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -13,11 +14,18 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseHelper mDBHelper;
     private SQLiteDatabase mDb;
 
-    private ArrayList<String> returnStudents(SQLiteDatabase db, int Course_id){
-        final String DB_NAME = "Haha";
-        SQLiteDatabase dbd = getBaseContext().openOrCreateDatabase(DB_NAME, MODE_PRIVATE, null);
-        return new ArrayList<String>();
-
+    // Потом будет ArrayList<String>
+    // Функция возвращает все значения таблицы студентов
+    private String returnStudents(){
+        String product = "";
+        Cursor cursor = mDb.rawQuery("SELECT * FROM Students", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            product += cursor.getString(1) + " | ";
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return product;
 
     }
 

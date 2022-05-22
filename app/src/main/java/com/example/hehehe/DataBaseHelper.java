@@ -1,5 +1,6 @@
 package com.example.hehehe;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,14 +14,16 @@ import java.io.OutputStream;
 
 
 class DatabaseHelper extends SQLiteOpenHelper {
-    private static String DB_NAME = "Haha.db";
+    private static final String DB_NAME = "Haha.db";
     private static String DB_PATH = "";
+    // Если обновил информацию в дб - Увеличь номер версии
     private static final int DB_VERSION = 1;
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;
     private boolean mNeedUpdate = false;
 
+    @SuppressLint("SdCardPath")
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         if (android.os.Build.VERSION.SDK_INT >= 17)
