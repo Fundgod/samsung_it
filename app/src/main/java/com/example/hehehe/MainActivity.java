@@ -9,23 +9,47 @@ import android.os.Bundle;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     private DatabaseHelper mDBHelper;
     private SQLiteDatabase mDb;
 
-    // Потом будет ArrayList<String>
+
+    public void insert_student(String name, String surname) {
+        String query = "INSERT INTO students (name, surname) VALUES (" + name + ", " + surname + ")";
+        System.out.println(query);
+        mDb.execSQL(query);
+    }
+
     // Функция возвращает все значения таблицы студентов
-    private String returnStudents(){
-        String product = "";
+    private ArrayList<HashMap<String, Object>> returnStudents(){
+        // Список клиентов
+        ArrayList<HashMap<String, Object>> clients = new ArrayList<>();
+
+        // Список параметров конкретного клиента
+        HashMap<String, Object> client;
+
+        // Отправляем запрос в БД
         Cursor cursor = mDb.rawQuery("SELECT * FROM Students", null);
         cursor.moveToFirst();
+
+        // Пробегаем по всем клиентам
         while (!cursor.isAfterLast()) {
-            product += cursor.getString(1) + " | ";
+            client = new HashMap<>();
+
+            // Заполняем клиента
+            client.put("name",  cursor.getString(1));
+            client.put("age",  cursor.getString(2));
+
+            // Закидываем клиента в список клиентов
+            clients.add(client);
+
+            // Переходим к следующему клиенту
             cursor.moveToNext();
         }
         cursor.close();
-        return product;
+        return clients;
 
     }
 
@@ -43,7 +67,10 @@ public class MainActivity extends AppCompatActivity {
 
         mDb = mDBHelper.getWritableDatabase();
         // Конец работы
+        insert_student("22", "33");
 
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
+
+        System.out.println(returnStudents());
     }
 }
