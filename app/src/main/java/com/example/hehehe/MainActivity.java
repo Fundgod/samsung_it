@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase mDb;
 
 
-    public void insert_student(String name, String surname) {
+    public void insertStudent(String name, String surname) {
         String query = "INSERT INTO students (name, surname) VALUES (" + name + ", " + surname + ")";
         System.out.println(query);
         mDb.execSQL(query);
@@ -39,9 +39,12 @@ public class MainActivity extends AppCompatActivity {
             client = new HashMap<>();
 
             // Заполняем клиента
+            client.put("id", cursor.getInt(0));
             client.put("name",  cursor.getString(1));
-            client.put("age",  cursor.getString(2));
-
+            client.put("surname",  cursor.getString(2));
+            client.put("patronymic", cursor.getString(3));
+            client.put("birthday", cursor.getString(4));
+            client.put("group", cursor.getString(5));
             // Закидываем клиента в список клиентов
             clients.add(client);
 
@@ -67,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
 
         mDb = mDBHelper.getWritableDatabase();
         // Конец работы
-        insert_student("22", "33");
 
         //setContentView(R.layout.activity_main);
 
         System.out.println(returnStudents());
+        System.out.println("11111");
     }
 }
