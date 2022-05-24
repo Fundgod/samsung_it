@@ -16,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase mDb;
 
 
-    public void insertStudent(String name, String surname) {
-        String query = "INSERT INTO students (name, surname) VALUES (" + name + ", " + surname + ")";
+    public void insertStudent(String name, String surname, String patronymic, String birthday, String grou) {
+        String query = "INSERT INTO students (name, surname, patronymic, birthday, group) VALUES (" + name + ", " + surname + ", " + patronymic + ", " + birthday + ", " + grou +")";
         System.out.println(query);
         mDb.execSQL(query);
     }
