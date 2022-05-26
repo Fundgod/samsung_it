@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +31,16 @@ public class MainActivity extends AppCompatActivity {
         mDb.execSQL(query);
     }
 
+    public void deleteStudent(View v) {
+        Button b = (Button)v;
+        String buttonText = b.getText().toString();
+        // System.out.println(b.getHint() + " 22");
+        // System.out.println(" 322");
+        String query = "DELETE FROM Students WHERE id = \"" + buttonText + "\"";
+        mDb.execSQL(query);
+        updateList();
+    }
+
     // Функция возвращает все значения таблицы студентов
     private ArrayList<HashMap<String, Object>> returnStudents(){
         // Список клиентов
@@ -47,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             client = new HashMap<>();
 
             // Заполняем клиента
+            client.put("id", cursor.getString(0));
             client.put("name",  cursor.getString(1));
             client.put("surname",  cursor.getString(2));
 
@@ -61,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateList() {
-        SimpleAdapter adapter = new SimpleAdapter(this, returnStudents(), R.layout.adapter_item, new String[]{"name", "surname"}, new int[]{R.id.textView, R.id.textView2});
+        SimpleAdapter adapter = new SimpleAdapter(this, returnStudents(), R.layout.adapter_item, new String[]{"name", "surname", "id"}, new int[]{R.id.textView, R.id.textView2, R.id.button2});
         ListView listView = (ListView)findViewById(R.id.listView);
         listView.setAdapter(adapter);
     }
@@ -77,11 +89,11 @@ public class MainActivity extends AppCompatActivity {
             throw new Error("UnableToUpdateDatabase");
         }
         mDb = mDBHelper.getWritableDatabase();
+        System.out.println("YES");
 
 
         text = (EditText)findViewById(R.id.editText);
         button = (Button)findViewById(R.id.button);
-        button2 = (Button)findViewById(R.id.button2);
 
 
         button.setOnClickListener(v -> {
@@ -90,9 +102,6 @@ public class MainActivity extends AppCompatActivity {
                 insertStudent(str[0], str[1]);
                 updateList();
             }
-        });
-        button2.setOnClickListener(v -> {
-
         });
         updateList();
     }

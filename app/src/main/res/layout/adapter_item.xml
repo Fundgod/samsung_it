@@ -35,6 +35,7 @@
         android:layout_height="48dp"
         android:layout_marginStart="220dp"
         android:text="Удл"
+        android:onClick="deleteStudent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="parent"
