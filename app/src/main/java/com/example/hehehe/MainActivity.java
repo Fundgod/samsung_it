@@ -1,9 +1,9 @@
 package com.example.hehehe;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -19,23 +19,27 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
 
     Button button;
-    Button button2;
     EditText text;
 
-    private DatabaseHelper mDBHelper;
     private SQLiteDatabase mDb;
 
     public void insertStudent(String fName, String fSurname) {
         String query = "INSERT INTO Students (name, surname) VALUES (\"" + fName + "\", \"" + fSurname + "\")";
         mDb.execSQL(query);
     }
+    public void deleteStudent(View v) {
+        String query = "DELETE FROM Students WHERE id = \"" + ((Button)v).getText().toString() + "\"";
+        mDb.execSQL(query);
+        updateList();
+    }
 
     // Функция возвращает все значения таблицы студентов
+    @NonNull
     private ArrayList<HashMap<String, Object>> returnStudents(){
-        // Список клиентов
+        // Список студентов
         ArrayList<HashMap<String, Object>> clients = new ArrayList<>();
 
-        // Список параметров конкретного клиента
+        // Список параметров конкретного студента
         HashMap<String, Object> client;
 
         // Отправляем запрос в БД
@@ -46,14 +50,15 @@ public class MainActivity extends AppCompatActivity {
         while (!cursor.isAfterLast()) {
             client = new HashMap<>();
 
-            // Заполняем клиента
+            // Заполняем студента
+            client.put("id", cursor.getString(0));
             client.put("name",  cursor.getString(1));
             client.put("surname",  cursor.getString(2));
 
-            // Закидываем клиента в список клиентов
+            // Закидываем студента в список клиентов
             clients.add(client);
 
-            // Переходим к следующему клиенту
+            // Переходим к следующему студенту
             cursor.moveToNext();
         }
         cursor.close();
@@ -61,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateList() {
-        SimpleAdapter adapter = new SimpleAdapter(this, returnStudents(), R.layout.adapter_item, new String[]{"name", "surname"}, new int[]{R.id.textView, R.id.textView2});
+        SimpleAdapter adapter = new SimpleAdapter(this, returnStudents(), R.layout.adapter_item, new String[]{"id", "name", "surname"}, new int[]{R.id.button2, R.id.textView, R.id.textView2});
         ListView listView = (ListView)findViewById(R.id.listView);
         listView.setAdapter(adapter);
     }
@@ -70,7 +75,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mDBHelper = new DatabaseHelper(this);
+        text = (EditText)findViewById(R.id.editText);
+        button = (Button)findViewById(R.id.button);
+
+
+        DatabaseHelper mDBHelper = new DatabaseHelper(this);
         try {
             mDBHelper.updateDataBase();
         } catch (IOException mIOException) {
@@ -79,20 +88,12 @@ public class MainActivity extends AppCompatActivity {
         mDb = mDBHelper.getWritableDatabase();
 
 
-        text = (EditText)findViewById(R.id.editText);
-        button = (Button)findViewById(R.id.button);
-        button2 = (Button)findViewById(R.id.button2);
-
-
         button.setOnClickListener(v -> {
             String[] str = text.getText().toString().split(" ");
             if (str.length == 2) {
                 insertStudent(str[0], str[1]);
                 updateList();
             }
-        });
-        button2.setOnClickListener(v -> {
-
         });
         updateList();
     }

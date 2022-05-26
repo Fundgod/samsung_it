@@ -6,9 +6,8 @@
     android:paddingRight="16dp"
     android:orientation="vertical" >
 
-
     <EditText
-        android:hint="Имя Фамилия"
+        android:hint="@string/text_val1"
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -17,8 +16,8 @@
         android:id="@+id/button"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="Read DB" />
+        android:layout_gravity="end"
+        android:text="@string/text_val2" />
 
     <ListView android:id="@+id/listView"
         android:layout_width="match_parent"
