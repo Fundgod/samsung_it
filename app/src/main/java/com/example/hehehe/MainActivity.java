@@ -19,14 +19,14 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
 
     Button button;
+    Button button2;
     EditText text;
 
     private DatabaseHelper mDBHelper;
     private SQLiteDatabase mDb;
 
-    //TODO: Понять что не работает здесь. Основная проблема в том, что при вводных данных Fff FffF выдаётся ошибка android.database.sqlite.SQLiteException: no such column: Fff (code 1 SQLITE_ERROR): , while compiling: INSERT INTO Students (name, surname) VALUES (Fff, FffF)
     public void insertStudent(String fName, String fSurname) {
-        String query = "INSERT INTO Students (name, surname) VALUES (" + fName + ", " + fSurname + ")";
+        String query = "INSERT INTO Students (name, surname) VALUES (\"" + fName + "\", \"" + fSurname + "\")";
         mDb.execSQL(query);
     }
 
@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         text = (EditText)findViewById(R.id.editText);
         button = (Button)findViewById(R.id.button);
+        button2 = (Button)findViewById(R.id.button2);
 
 
         button.setOnClickListener(v -> {
@@ -89,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
                 insertStudent(str[0], str[1]);
                 updateList();
             }
+        });
+        button2.setOnClickListener(v -> {
+
         });
         updateList();
     }
