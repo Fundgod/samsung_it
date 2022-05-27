@@ -17,7 +17,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "Haha.db";
     private static String DB_PATH = "";
     // Если обновил информацию в дб - Увеличь номер версии
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 4;
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;

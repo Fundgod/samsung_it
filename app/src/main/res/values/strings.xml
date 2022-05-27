@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Hehehe</string>
+    <string name="text_val1">Имя Фамилия</string>
+    <string name="text_val2">READ</string>
+    <string name="adapter_name">Имя</string>
+    <string name="adapter_surname">Фамилия</string>
 </resources>
